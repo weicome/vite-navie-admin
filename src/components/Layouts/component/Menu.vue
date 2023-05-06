@@ -1,0 +1,33 @@
+<template>
+<n-menu :options="menus"/>
+</template>
+
+<script setup lang="ts">
+import {usePermissionStore} from '@/store/modules'
+import { h } from 'vue';
+import { RouteRecordRaw, RouterLink, useRoute } from 'vue-router';
+import icons from '@vicons/ionicons5'
+// import { MenuOption } from 'naive-ui';
+
+const menuOptions = usePermissionStore().getPermissionSideBar
+
+// 组装菜单
+const generatorMenu = (routerMap: Array<RouteRecordRaw>): MenuOption[] => {
+    return routerMap.map((item):MenuOption => {
+        const currentMenu: MenuOption = {
+            label: () => h(RouterLink, {to:{name: item.name}},{default: ()=> item?.meta?.title}),
+            key: item!.name as string,
+            // icon: ()=> h(icons[item?.meta?.icon | 'LogOutOutline'])
+        }
+        if(item.children && item.children.length > 0){
+            currentMenu.children = generatorMenu(item.children)
+        }
+        return currentMenu 
+    }) 
+}
+const menus = generatorMenu(menuOptions)
+</script>
+
+<style scoped>
+
+</style>

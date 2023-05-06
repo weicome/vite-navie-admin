@@ -2,20 +2,11 @@ import { RouteRecordRaw } from "vue-router"
 import { defineStore } from "pinia";
 import router from '@/router'
 import { getPerm } from "@/api";
-import { findRootPathRoute, generatorRoutes, mapTwoLevelRouter } from "@/router/routes/static";
 import {constantRoutes} from "@/router/routes/constants";
 
-const hasPermission = (route: RouteRecordRaw, role: string[]): boolean => {
-    const routeRole = route.meta?.role ? route.meta?.role as string[] : []
-    if(!role.length || !routeRole.length) {
-        return false
-    }
-    return role.some((item) => routeRole.includes(item))
-}
-
-const usePermissionStore = defineStore('permission', {
+export const usePermissionStore = defineStore('permission', {
     state: () => ({
-        accessRoutes: [] as RouteRecordRaw[],
+        accessRoutes: [] as  RouteRecordRaw[],
     }),
     getters: {
         getPermissionSideBar(): RouteRecordRaw[]{

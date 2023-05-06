@@ -1,42 +1,54 @@
 import { RouteRecordRaw } from 'vue-router'
 
-const LAYOUT = () => import('@/components/Layout/Layout.vue')
+const LAYOUT = () => import('@/components/Layouts/Layout.vue')
 
 // 异步路由
 export const asyncRoutes = [
-    {
-        path: '/index',
+  {
+    path: '/',
+    name: 'Layout',
+    redirect: '/dashboard/welcome',
+    component: LAYOUT,
+    meta: {
+      title: '首页',
+    },
+    children: [],
+  },
+  {
+        path: '/dashboard',
         component: LAYOUT,
         name: 'Index',
         meta: {
-          title: 'Dashboard',
-          iconPrefix: 'iconfont',
+          title: '首页',
           icon: 'dashboard',
         },
         children: [
           {
-            path: 'home',
-            name: 'Home',
+            path: 'welcome',
+            name: 'Welcome',
             component: () => import('@/views/dashboard/index.vue'),
             meta: {
-              title: '主控台',
-              affix: true,
-              cacheable: true,
-              iconPrefix: 'iconfont',
-              icon: 'menu',
+              title: '工作台',
+              icon: 'icon-shouye',
             },
           },
-        //   {
-        //     path: 'work-place',
-        //     name: 'WorkPlace',
-        //     component: () => import('@/views/index/work-place.vue'),
-        //     meta: {
-        //       title: '工作台',
-        //       affix: true,
-        //       iconPrefix: 'iconfont',
-        //       icon: 'menu',
-        //     },
-        //   },
         ],
     }
 ] as RouteRecordRaw[]
+
+export const NOT_FOUND_ROUTE: RouteRecordRaw = {
+    name: 'NotFound',
+    path: '/:pathMatch(.*)*',
+    redirect: '/404',
+}
+
+const modules = import.meta.glob<Recordable>('./../modules/*.ts', {eager: true})
+Object.keys(modules).forEach( (key: string)=>{
+  const item = modules[key].default
+    asyncRoutes.push(...modules[key].default as RouteRecordRaw[])
+})
+import { constantRoutes } from './constants'
+asyncRoutes.push(...constantRoutes)
+asyncRoutes.push(NOT_FOUND_ROUTE)
+
+export default asyncRoutes

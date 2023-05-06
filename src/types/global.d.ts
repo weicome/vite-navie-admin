@@ -80,3 +80,13 @@ declare module 'vue' {
     | { new (): ComponentPublicInstance<Props> }
     | FunctionalComponent<Props>;
 }
+
+import type { LoadingBarApi,MessageApi,DialogApi,NotificationApi } from 'naive-ui';
+declare global {
+  interface Window {
+    $loadingBar: LoadingBarApi,
+    $message: MessageApi,
+    $dialog: DialogApi,
+    $notification: NotificationApi
+  }
+}

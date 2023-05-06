@@ -20,7 +20,7 @@ export const createPermissionGuard = (router :Router) => {
                     next()
                 } else{
                     await userStore.getInfo().catch((error) => {
-                        $message.error(error.message || '获取用户信息失败！')
+                        window.$message.error(error.message || '获取用户信息失败！')
                         return 
                     })
                     const accessRoutes = permissionStore.generateRoutes(userStore.role)

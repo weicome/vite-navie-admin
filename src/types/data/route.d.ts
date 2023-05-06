@@ -1,18 +1,12 @@
 
 type OriginRoute = {
-    parentPath?: string
-    menuUrl: string
-    menuName?: string
-    routeName?: string
-    hidden?: boolean
-    outLink?: string
-    affix?: boolean
-    cacheable?: boolean
-    isRootPath?: boolean
-    iconPrefix?: string
+    id: number | string
+    path: string
+    name: string  // 后端共用鉴权
+    redirect?: string
+    component: string
+    title?: string
     icon?: string
-    badge?: string | number
-    isSingle?: boolean
-    localFilePath?: string
+    hidden?: boolean
     children?: Array<OriginRoute>
 }

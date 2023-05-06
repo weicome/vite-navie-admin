@@ -1,12 +1,12 @@
 import { defineStore } from 'pinia'
 import { RouteRecordRaw } from 'vue-router'
 import { Storage } from '@/utils/cache'
-import { getInfo,login,logout } from '@/api';
+import { getInfo,getPerm,login,logout } from '@/api';
 
 interface UserState {
     token: string,
     perms: string[],
-    menus: RouteRecordRaw[],
+    menus: MenuOption[],
     userInfo: Partial<UserInfo>,
 }
 const ACCESS_TOKEN_KEY :string = 'access_token' 
@@ -63,8 +63,10 @@ export const useUserStore = defineStore('user', {
         /** 登录成功之后, 获取用户信息以及生成权限路由 */
         async getInfo(){
             try{
-                const userInfo = await (await getInfo()).data
+                const userInfo = (await getInfo()).data
                 this.userInfo = {...userInfo}
+                const menus = (await getPerm()).data
+                this.menus = {...menus}
                 return Promise.resolve(userInfo)
             }catch ( error ){
                 return Promise.reject(error)

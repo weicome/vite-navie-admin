@@ -1,5 +1,5 @@
 import {Router, createRouter,createWebHashHistory} from 'vue-router'
-import { basicRoutes as routes } from './routes/static'
+import { asyncRoutes as routes } from './routes/async'
 import type { App } from 'vue'
 import { createPageLoadingGuard } from './guard/page-loading-guard'
 import { createPageTitleGuard } from './guard/page-title-guard'
@@ -11,14 +11,16 @@ const router = createRouter({
     scrollBehavior: ()=> ({left:0, top:0}),
 })
 
-export const setupRouter = (app: App) =>{
+export const setupRouter = async (app: App) =>{
     app.use(router)
     setupRouterGuard(router)
+    await router.isReady()
+    console.log(router)
 }
 
 const setupRouterGuard = (router :Router) =>{
     createPageLoadingGuard(router)
-    createPermissionGuard(router)
+    // createPermissionGuard(router)
     createPageTitleGuard(router)
 }
 

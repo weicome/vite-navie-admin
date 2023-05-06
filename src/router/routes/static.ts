@@ -3,14 +3,14 @@ import { resolve } from "path";
 import { isExternal } from "util/types";
 import { RouteRecordRaw } from "vue-router";
 // 包含方法文件
-const LAYOUT = () => import('@/components/Layout/Layout.vue')
+const LAYOUT = () => import('@/components/Layouts/Layout.vue')
 export const NOT_FOUND_ROUTE: RouteRecordRaw = {
     name: 'NotFound',
     path: '/:pathMatch(.*)*',
     redirect: '/404',
 }
 
-const modules = import.meta.glob('../modules/*.ts')
+const modules = import.meta.glob<Recordable>('../modules/*.ts',{eager: true})
 const asyncRoutes :RouteRecordRaw[] = []
 Object.keys(modules).forEach( (key: string)=>{
     asyncRoutes.push(...modules[key].default as RouteRecordRaw[])
@@ -28,7 +28,7 @@ export const generatorRoutes = (res: Array<OriginRoute>): RouteRecordRaw[] => {
         }else{
             const route: RouteRecordRaw = {
                 path: it.outLink && isExternal(it.outLink) ? it.outLink : it.menuUrl,
-                name: it.routeName || getNameByUrl(it.menuUrl),
+                name: it.routeName || '',
                 component: isMenuFlag ? LAYOUT : getComponent(it),
                 meta: {
                     hidden: !!it.hidden,

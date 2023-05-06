@@ -51,8 +51,8 @@ async function handleLogin() {
     const { name, password } = loginInfo.value
     try{
 
-    }catch( error ){
-        $message.error(error.message)
+    }catch( error :any){
+        window.$message.error(error?.message)
     }
 }
 
