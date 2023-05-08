@@ -30,9 +30,9 @@ export const logout = () => {
     });
 }
 
-export const getPerm = (): Promise<AxiosResponse<Array<OriginRoute>>> => {
+export const getRole = (): Promise<AxiosResponse<UserRole>> => {
     return request({
-        url: '/auth/menu',
+        url: '/auth/getRole',
         method: 'get'
     })
 }

@@ -1,5 +1,4 @@
-import { Recordable } from 'vite-plugin-mock';
-import { createProdMockServer } from 'vite-plugin-mock/es/createProdMockServer'
+import { Recordable, viteMockServe  } from 'vite-plugin-mock';
 
 const modules = import.meta.glob<Recordable>('./**/*.ts', {eager: true});
 
@@ -13,5 +12,5 @@ Object.keys(modules).forEach((key)=> {
 
 export function setupProdMockServer(){
     console.log('mockModules', mockModules)
-    createProdMockServer(mockModules)
+    viteMockServe  ({mockModules})
 }

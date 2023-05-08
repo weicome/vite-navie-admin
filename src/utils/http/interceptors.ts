@@ -1,7 +1,8 @@
 import { AxiosResponse, InternalAxiosRequestConfig } from "axios";
 import { isNullOrUnDef } from "../is";
 import { isWithoutToken } from "./helpers";
-import { toLogin } from "../auth";
+import {useUserStore} from '@/store/modules'
+import router from "@/router";
 
 export const reqResolve = (config :InternalAxiosRequestConfig) => {
     if( config.method === 'get'){
@@ -10,9 +11,10 @@ export const reqResolve = (config :InternalAxiosRequestConfig) => {
     if( isWithoutToken(config)){
         return config
     }
-    const token = getToken()
+
+    const token = useUserStore().token
     if(! token ){
-        toLogin()
+        router.push({name: 'Login'})
         return Promise.reject({code: '-1', message: '未登录'})
     }
     config.headers.Authorization = 

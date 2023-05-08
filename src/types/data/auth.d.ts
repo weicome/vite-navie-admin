@@ -2,8 +2,13 @@ type UserInfo = {
   id: number;
   name: string;
   avatar: string;
-  role: string;
 };
+
+type UserRole = {
+  id: number
+  name: string,
+  menus: OriginRoute[]
+}
 
 /** 登录参数 */
 type LoginParams = {

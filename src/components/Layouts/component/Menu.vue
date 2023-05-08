@@ -3,13 +3,12 @@
 </template>
 
 <script setup lang="ts">
-import {usePermissionStore} from '@/store/modules'
+import { useUserStore} from '@/store/modules'
 import { h } from 'vue';
-import { RouteRecordRaw, RouterLink, useRoute } from 'vue-router';
+import { RouteRecordRaw, RouterLink } from 'vue-router';
 import icons from '@vicons/ionicons5'
-// import { MenuOption } from 'naive-ui';
 
-const menuOptions = usePermissionStore().getPermissionSideBar
+const menuOptions = useUserStore().menus
 
 // 组装菜单
 const generatorMenu = (routerMap: Array<RouteRecordRaw>): MenuOption[] => {

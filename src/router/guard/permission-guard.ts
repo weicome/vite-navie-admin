@@ -1,34 +1,36 @@
-import { usePermissionStore } from "@/store/modules/permission"
 import { useUserStore } from "@/store/modules/user"
 import type { RouteRecordRaw, Router } from "vue-router"
-import { NOT_FOUND_ROUTE } from "../routes/static"
-import { isNull } from '@/utils/is/index';
+import { NOT_FOUND_ROUTE } from "../routes/constants"
+import { isNull } from '@/utils/is/index'
+import { constantRoutes } from '@/router/routes/constants'
+import { jumpRoot } from "../helper"
 
 const WHITE_LIST = ['/login']
 
 // 第一版
 export const createPermissionGuard = (router :Router) => {
     const userStore = useUserStore()
-    const permissionStore = usePermissionStore()
-    router.beforeEach(async (to, from, next) =>{
+    router.beforeEach(async ( to, from, next) =>{
         if(!isNull(userStore.token)) {
             if(to.path === '/login'){
                 next({path: '/'})
             }else{
                 if(userStore.userId){
                     // 已经获取到用户信息
-                    next()
+                    jumpRoot(to,next,userStore.menus)
                 } else{
+                    router.options.routes = {...constantRoutes}
                     await userStore.getInfo().catch((error) => {
                         window.$message.error(error.message || '获取用户信息失败！')
                         return 
                     })
-                    const accessRoutes = permissionStore.generateRoutes(userStore.role)
-                    accessRoutes.array.forEach((route: RouteRecordRaw) => {
+                    const accessRoutes = userStore.menus
+                    accessRoutes.forEach((route: RouteRecordRaw) => {
                         !router.hasRoute(route.name as string) && router.addRoute(route)
                     });
                     router.addRoute(NOT_FOUND_ROUTE)
-                    next({...to, replace: true})
+                    
+                    jumpRoot(to,next,userStore.menus)
                 }
             }
         }else{

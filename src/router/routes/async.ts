@@ -4,16 +4,16 @@ const LAYOUT = () => import('@/components/Layouts/Layout.vue')
 
 // 异步路由
 export const asyncRoutes = [
-  {
-    path: '/',
-    name: 'Layout',
-    redirect: '/dashboard/welcome',
-    component: LAYOUT,
-    meta: {
-      title: '首页',
-    },
-    children: [],
-  },
+  // {
+  //   path: '/',
+  //   name: 'Layout',
+  //   redirect: '/dashboard/welcome',
+  //   component: LAYOUT,
+  //   meta: {
+  //     title: '首页',
+  //   },
+  //   children: [],
+  // },
   {
         path: '/dashboard',
         component: LAYOUT,
@@ -47,8 +47,11 @@ Object.keys(modules).forEach( (key: string)=>{
   const item = modules[key].default
     asyncRoutes.push(...modules[key].default as RouteRecordRaw[])
 })
+
 import { constantRoutes } from './constants'
+
 asyncRoutes.push(...constantRoutes)
+
 asyncRoutes.push(NOT_FOUND_ROUTE)
 
 export default asyncRoutes

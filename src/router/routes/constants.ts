@@ -5,6 +5,16 @@ const LAYOUT = () => import('@/components/Layouts/Layout.vue')
 // 常量路由
 export const constantRoutes = [
     {
+      path: '/',
+      name: 'Layout',
+      redirect: '/dashboard/welcome',
+      component: LAYOUT,
+      meta: {
+        title: '首页',
+      },
+      children: [],
+    },
+    {
       name: 'Login',
       path: '/login',
       component: () => import('@/views/login/index.vue'),
@@ -20,3 +30,11 @@ export const constantRoutes = [
       },
     },
 ]as RouteRecordRaw[]
+
+// miss路由
+export const NOT_FOUND_ROUTE: RouteRecordRaw = {
+  name: 'NotFound',
+  path: '/:pathMatch(.*)*',
+  redirect: '/404',
+}
+

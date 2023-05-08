@@ -1,26 +1,28 @@
 import { defineStore } from 'pinia'
-import { RouteRecordRaw } from 'vue-router'
 import { Storage } from '@/utils/cache'
-import { getInfo,getPerm,login,logout } from '@/api';
-
+import { getInfo,getRole,login,logout } from '@/api';
+import { asyncRoutes } from '@/router/routes/async'
+import {generatorRoutes} from '@/router/helper'
 interface UserState {
     token: string,
-    perms: string[],
-    menus: MenuOption[],
     userInfo: Partial<UserInfo>,
+    role: Partial<UserRole>,
 }
+
 const ACCESS_TOKEN_KEY :string = 'access_token' 
 
-const DURATION :number =  60* 60 * 60
+const DURATION :number =  60 * 60 * 60
 
 export const useUserStore = defineStore('user', {
     state: (): UserState => ({
-        token: Storage.get(ACCESS_TOKEN_KEY, null),
-        perms: [],
-        menus: [],
+        token: Storage.get(ACCESS_TOKEN_KEY, true),
         userInfo: {},
+        role: {},
     }),
     getters: {
+        token(): string|null{
+            return this.token || null
+        },
         userId():string|number {
             return this.userInfo?.id as number;
         },
@@ -31,7 +33,12 @@ export const useUserStore = defineStore('user', {
             return this.avatar as string;
         },
         role(): string {
-            return this.userInfo?.role || ''
+            return this.role?.name || ''
+        },
+        menus() { // 这里先直接返回路由组, 后面修改菜单生成方式
+            return asyncRoutes 
+            // const menus = this.role?.menus as OriginRoute[]
+            // return generatorRoutes(menus)
         }
     },
     actions: {
@@ -39,8 +46,7 @@ export const useUserStore = defineStore('user', {
         resetToken(): void{
             this.token = ''
             this.userInfo = {}
-            this.perms = []
-            this.menus = []
+            this.role = ''
             Storage.clear()
         },
          /** 登录成功保存token */
@@ -65,14 +71,22 @@ export const useUserStore = defineStore('user', {
             try{
                 const userInfo = (await getInfo()).data
                 this.userInfo = {...userInfo}
-                const menus = (await getPerm()).data
-                this.menus = {...menus}
+                const role = (await getRole()).data as UserRole
+                // this.role = {...role}
+                this.userInfo.id = 1
+                this.role.id = role.id
+                this.role.name = role.name
+                this.role.menus = role.menus
                 return Promise.resolve(userInfo)
             }catch ( error ){
                 return Promise.reject(error)
             }
         },
-
+        update(){
+            this.userInfo = {}
+            this.role = ''
+            this.getInfo()
+        },
         /** 登出 */
         async logout() {
             await logout();
@@ -81,3 +95,4 @@ export const useUserStore = defineStore('user', {
         },
     }
 })
+export default useUserStore

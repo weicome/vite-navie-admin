@@ -1,6 +1,7 @@
+import type { App } from 'vue'
 import {Router, createRouter,createWebHashHistory} from 'vue-router'
 import { asyncRoutes as routes } from './routes/async'
-import type { App } from 'vue'
+// import { constantRoutes as routes } from './routes/constants'
 import { createPageLoadingGuard } from './guard/page-loading-guard'
 import { createPageTitleGuard } from './guard/page-title-guard'
 import { createPermissionGuard } from './guard/permission-guard'
@@ -15,7 +16,6 @@ export const setupRouter = async (app: App) =>{
     app.use(router)
     setupRouterGuard(router)
     await router.isReady()
-    console.log(router)
 }
 
 const setupRouterGuard = (router :Router) =>{

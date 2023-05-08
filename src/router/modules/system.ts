@@ -1,6 +1,6 @@
 import { RouteRecordRaw } from 'vue-router'
 
-const LAYOUT = () => import('@/components/Layout/Layout.vue')
+const LAYOUT = () => import('@/components/Layouts/Layout.vue')
 
 // 系统管理路由配置
  const systemRoutes = [
