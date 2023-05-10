@@ -1,8 +1,8 @@
 <template>
     <div flex h-full>
-      <n-result m-auto status="500" title="500 资源不存在" description="生活总归带点荒谬">
+      <n-result m-auto status="500" title="500 服务器错误" description="服务器出错可能说明该雇更多程序员了">
         <template #footer>
-          <n-button>找点乐子吧</n-button>
+          <n-button>散财消灾</n-button>
         </template>
       </n-result>
     </div>

@@ -1,8 +1,8 @@
 <template>
     <div flex h-full>
-      <n-result m-auto status="403" title="403 资源不存在" description="生活总归带点荒谬">
+      <n-result m-auto status="403" title="403 禁止访问" description="总有些门是对你关闭的">
         <template #footer>
-          <n-button>找点乐子吧</n-button>
+          <n-button>放轻松</n-button>
         </template>
       </n-result>
     </div>
