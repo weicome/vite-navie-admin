@@ -12,7 +12,6 @@ export const constantRoutes = [
       meta: {
         title: '首页',
       },
-      children: [],
     },
     {
       name: 'Login',

@@ -10,7 +10,6 @@ const LAYOUT = () => import('@/components/Layouts/Layout.vue')
       component: LAYOUT,
       meta: {
         title: '系统管理',
-        hidden: true,
       },
       children: [
         {

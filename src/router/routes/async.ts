@@ -4,20 +4,10 @@ const LAYOUT = () => import('@/components/Layouts/Layout.vue')
 
 // 异步路由
 export const asyncRoutes = [
-  // {
-  //   path: '/',
-  //   name: 'Layout',
-  //   redirect: '/dashboard/welcome',
-  //   component: LAYOUT,
-  //   meta: {
-  //     title: '首页',
-  //   },
-  //   children: [],
-  // },
-  {
+   {
         path: '/dashboard',
-        component: LAYOUT,
         name: 'Index',
+        component: LAYOUT,
         meta: {
           title: '首页',
           icon: 'dashboard',
@@ -33,6 +23,14 @@ export const asyncRoutes = [
             },
           },
         ],
+    },{
+        path: '/test-page',
+        name: 'Unocss',
+        component: ()=>import ('@/views/test-page/unocss/index.vue'),
+        meta: {
+          title: 'Unocss',
+          icon: 'dashboard',
+        },
     }
 ] as RouteRecordRaw[]
 
@@ -44,7 +42,6 @@ export const NOT_FOUND_ROUTE: RouteRecordRaw = {
 
 const modules = import.meta.glob<Recordable>('./../modules/*.ts', {eager: true})
 Object.keys(modules).forEach( (key: string)=>{
-  const item = modules[key].default
     asyncRoutes.push(...modules[key].default as RouteRecordRaw[])
 })
 
