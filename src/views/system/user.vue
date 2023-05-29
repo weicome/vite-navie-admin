@@ -1,13 +1,11 @@
 <template>
-    <div>
-管理员
-    </div>
+ <n-data-table :columns="columns" :data="data" :pagination="pagination" />
 </template>
 
 <script setup lang="ts">
 
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 
 </style>

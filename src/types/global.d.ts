@@ -1,3 +1,5 @@
+// 复制来的，不知干嘛用
+
 import packageJSON from '../package.json';
 import type {
   ComponentRenderProxy,

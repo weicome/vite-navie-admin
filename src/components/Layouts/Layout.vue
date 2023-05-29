@@ -4,7 +4,7 @@
     <n-space vertical>
       <n-layout has-sider>
         <!--左侧导航-->
-        <n-layout-sider
+        <n-layout-sider   class="sider"
           bordered
           show-trigger
           collapse-mode="width"
@@ -19,13 +19,13 @@
         </n-layout-sider>
 
         <!--右侧内容-->
-        <n-layout>
+        <n-layout class="right">
 
-          <n-layout-header bordered>
+          <n-layout-header bordered class="header">
             <Header />
           </n-layout-header>
 
-          <n-layout-content>
+          <n-layout-content class="main">
             <!--标签组件-->
             <Main />
           </n-layout-content>
@@ -40,10 +40,27 @@
 <script setup lang="ts">
 
 </script>
-<style scoped>
+<style lang="scss" scoped>
 .vaw-layout-container {
   height: 100%;
   max-width: 100%;
   overflow-x: hidden;
+
+  .sider{
+    height: 100%;
+  }
+
+  .right{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    .header{
+      height: 80px;
+    }
+    .main{
+      flex-grow: 1;
+    }
+  }
 }
 </style>

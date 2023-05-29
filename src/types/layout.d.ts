@@ -1,3 +1,4 @@
+// 布局类型
 
 type MenuOption =  import('naive-ui').MenuOption & {
     key: string,

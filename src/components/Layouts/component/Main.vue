@@ -1,4 +1,4 @@
-<template>
+<template class="main">
 <router-view v-slot="{Component, route}">
     <transition :name="appConfig.pageAnim + '-transform'" mode="out-in" appear>
         <keep-alive >
@@ -16,5 +16,7 @@ const appConfig = useAppConfigStore()
 </script>
 
 <style scoped>
-
+.main{
+    padding: 10px 10px;
+}
 </style>

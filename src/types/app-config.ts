@@ -1,4 +1,4 @@
-
+// 不知何用
 export enum LayoutMode{
     LTR = 'ltr',
     LCR = 'lcr',

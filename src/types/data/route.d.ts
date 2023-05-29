@@ -1,3 +1,4 @@
+// 菜单业务类型
 
 type OriginRoute = {
     id: number | string
