@@ -1,5 +1,5 @@
 <template>
-	<n-card title="管理员" :bordered="false" class="rounded-16px shadow-sm">
+	<n-card title="角色列表" :bordered="false" class="rounded-16px shadow-sm">
 		<n-space class="pb-12px" justify="space-between">
 			<n-space>
 				<n-button type="primary" @click="handleAddTable"
@@ -19,44 +19,36 @@
 					<icon-mdi-refresh class="mr-4px text-16px" :class="{ 'animate-spin': loading }" />
 					刷新表格
 				</n-button>
-				<column-setting v-model:columns="columns" />
 			</n-space>
 		</n-space>
 		<n-data-table :columns="columns" :data="tableData" :pagination="pagination" />
-		<table-action-modal v-model:visible="visible" :type="modalType" :edit-data="editData" />
+		<table-action-modal v-model:visible="visible" :type="modalType" :data="editData" />
 	</n-card>
 </template>
 
 <script setup lang="tsx">
 import { type Ref, ref, reactive } from "vue"
-import { NSpace, NButton, NPopconfirm, type DataTableColumns, type PaginationProps } from "naive-ui"
-import type { AccountManagement } from "@/typings/business/admin"
+import { NSpace, NButton, NPopconfirm, type DataTableColumns, type PaginationProps, NTag } from "naive-ui"
 
-import { getAdmin } from "@/api"
+import { StatusLabels, StatusOptions } from "@/constants"
+
 import { useBoolean, useLoading } from "@/hooks"
 
-import ColumnSetting from "./components/column-setting.vue"
 import TableActionModal, { ModalType } from "./components/table-action-modal.vue"
 
 const { loading, startLoading, endLoaing } = useLoading(false)
 const { bool: visible, setTrue: openModal } = useBoolean()
 
 const modalType = ref<ModalType>("add")
-const editData = ref<AccountManagement.OriginAdmin | null>(null)
-const tableData = ref<AccountManagement.OriginAdmin[]>([])
-const pagination: PaginationProps = reactive({
-	page: 1,
-	pageSize: 10,
-	showSizePicker: true,
-	pageSizes: [10, 15, 20, 25, 30],
-	onChange: (page: number) => {
-		pagination.page = page
-	},
-	onUpdatePageSize: (pageSize: number) => {
-		pagination.pageSize = pageSize
-		pagination.page = 1
+const editData = ref<AccountManagement.Role | null>(null)
+const tableData = ref<AccountManagement.Role[]>([
+	{
+		id: 1,
+		name: "超级管理员",
+		symbol: "root",
+		status: "0"
 	}
-})
+])
 
 const handleAddTable = () => {
 	setModalType("add")
@@ -79,7 +71,7 @@ const getTableData = async () => {
 	console.log(data)
 	if (data) {
 		setTimeout(() => {
-			// setTableData()
+			// setTableData(data)
 		}, 1000)
 	}
 	endLoaing()
@@ -87,40 +79,41 @@ const getTableData = async () => {
 function setModalType(type: ModalType) {
 	modalType.value = type
 }
-function setEditData(data: AccountManagement.OriginAdmin | null) {
+function setEditData(data: AccountManagement.Role | null) {
 	editData.value = data
 }
-function setTableData(data: AccountManagement.OriginAdmin[]) {
+function setTableData(data: AccountManagement.Role[]) {
 	tableData.value = data
 }
-const columns: Ref<DataTableColumns<AccountManagement.OriginAdmin>> = ref([
+const columns: Ref<DataTableColumns<AccountManagement.Role>> = ref([
 	{
-		type: "selection",
+		key: "id",
+		title: "序号",
+		align: "center",
+		width: "60"
+	},
+	{
+		key: "name",
+		title: "角色名称",
 		align: "center"
 	},
 	{
-		key: "id",
-		title: "序号"
-	},
-	{
-		key: "username",
-		title: "账号"
-	},
-	{
-		key: "nickname",
-		title: "昵称"
+		key: "symbol",
+		title: "标识",
+		align: "center"
 	},
 	{
 		key: "status",
-		title: "状态"
-	},
-	{
-		key: "create_at",
-		title: "创建时间"
-	},
-	{
-		key: "update_at",
-		title: "更新时间"
+		title: "状态",
+		align: "center",
+		render: (row) => {
+			const tagTypes: Record<StatusKey, NaiveUI.ThemeColor> = {
+				"0": "error",
+				"1": "success",
+				"2": "warning"
+			}
+			return <NTag type={tagTypes[row.status]}>{StatusLabels[row.status]}</NTag>
+		}
 	},
 	{
 		key: "actions",
@@ -139,8 +132,20 @@ const columns: Ref<DataTableColumns<AccountManagement.OriginAdmin>> = ref([
 			)
 		}
 	}
-]) as Ref<DataTableColumns<AccountManagement.OriginAdmin>>
-
+]) as Ref<DataTableColumns<AccountManagement.Role>>
+const pagination: PaginationProps = reactive({
+	page: 1,
+	pageSize: 10,
+	showSizePicker: true,
+	pageSizes: [10, 15, 20, 30],
+	onChange: (page: number) => {
+		pagination.page = page
+	},
+	onUpdatePageSize: (pageSize: number) => {
+		pagination.pageSize = pageSize
+		pagination.page = 1
+	}
+})
 ;(function () {
 	getTableData()
 })()

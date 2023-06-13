@@ -15,7 +15,7 @@ const systemRoutes = [
 			{
 				path: "admin",
 				name: "admin",
-				component: () => import("@/views/account/admini/admini.vue"),
+				component: () => import("@/views/account/admini/index.vue"),
 				meta: {
 					title: "管理员列表"
 				}
@@ -23,7 +23,7 @@ const systemRoutes = [
 			{
 				path: "role",
 				name: "role",
-				component: () => import("@/views/account/role.vue"),
+				component: () => import("@/views/account/role/index.vue"),
 				meta: {
 					title: "角色列表"
 				}
@@ -31,7 +31,7 @@ const systemRoutes = [
 			{
 				path: "menu",
 				name: "menu",
-				component: () => import("@/views/account/menu.vue"),
+				component: () => import("@/views/account/menu/index.vue"),
 				meta: {
 					title: "菜单列表"
 				}

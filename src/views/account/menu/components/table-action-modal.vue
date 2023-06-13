@@ -2,16 +2,16 @@
 	<n-modal v-model:show="modalVisible" preset="card" :title="title" class="w-700px">
 		<n-form ref="formRef" label-placement="left" :label-width="80" :model="formModel" :rules="rules">
 			<n-grid :cols="24" :x-gap="18">
-				<n-form-item-grid-item :span="12" label="用户名" path="username">
+				<n-form-item-grid-item :span="12" label="用户名" path="userName">
 					<n-input v-model:value="formModel.username" />
 				</n-form-item-grid-item>
-				<n-form-item-grid-item :span="12" label="密码" path="password">
-					<n-input v-model:value="formModel.password" type="password" />
+				<n-form-item-grid-item :span="12" label="密码" path="userName">
+					<n-input v-model:value="formModel.password" />
 				</n-form-item-grid-item>
-				<n-form-item-grid-item :span="12" label="昵称" path="nickname">
-					<n-input v-model:value="formModel.nickname" />
+				<n-form-item-grid-item :span="12" label="昵称" path="userName">
+					<n-input v-model:value="formModel.username" />
 				</n-form-item-grid-item>
-				<n-form-item-grid-item :span="12" label="状态" path="status">
+				<n-form-item-grid-item :span="12" label="状态" path="userName">
 					<n-select v-model:value="formModel.status" :options="StatusOptions" />
 				</n-form-item-grid-item>
 			</n-grid>
