@@ -2,14 +2,23 @@
 	<n-modal v-model:show="modalVisible" preset="card" :title="title" class="w-700px">
 		<n-form ref="formRef" label-placement="left" :label-width="80" :model="formModel" :rules="rules">
 			<n-grid :cols="24" :x-gap="18">
-				<n-form-item-grid-item :span="12" label="用户名" path="userName">
-					<n-input v-model:value="formModel.username" />
+				<n-form-item-grid-item :span="20" label="类型" path="type">
+					<n-input v-model:value="formModel.type" />
 				</n-form-item-grid-item>
-				<n-form-item-grid-item :span="12" label="密码" path="userName">
-					<n-input v-model:value="formModel.password" />
+				<n-form-item-grid-item :span="12" label="标题" path="title">
+					<n-input v-model:value="formModel.title" />
 				</n-form-item-grid-item>
-				<n-form-item-grid-item :span="12" label="昵称" path="userName">
-					<n-input v-model:value="formModel.username" />
+				<n-form-item-grid-item :span="12" label="路径" path="path">
+					<n-input v-model:value="formModel.path" />
+				</n-form-item-grid-item>
+				<n-form-item-grid-item :span="12" label="名称" path="name">
+					<n-input v-model:value="formModel.name" />
+				</n-form-item-grid-item>
+				<n-form-item-grid-item :span="12" label="地址" path="url">
+					<n-input v-model:value="formModel.url" />
+				</n-form-item-grid-item>
+				<n-form-item-grid-item :span="12" label="图标" path="icon">
+					<n-input v-model:value="formModel.icon" />
 				</n-form-item-grid-item>
 				<n-form-item-grid-item :span="12" label="状态" path="userName">
 					<n-select v-model:value="formModel.status" :options="StatusOptions" />
@@ -61,8 +70,8 @@ const modalVisible = computed({
 })
 const title = computed(() => {
 	const titles: Record<ModalType, string> = {
-		add: "添加用户",
-		edit: "编辑用户"
+		add: "添加菜单",
+		edit: "编辑菜单"
 	}
 	return titles[props.type]
 })
@@ -70,36 +79,40 @@ const closeModal = () => {
 	modalVisible.value = false
 }
 
-const formModel = reactive<AccountManagement.Admin>(createDefaultFormModel())
+const formModel = reactive<AccountManagement.Menu>(createDefaultFormModel())
 
-const rules: Record<keyof AccountManagement.Admin, FormItemRule | FormItemRule[]> = {
+const rules: Record<keyof AccountManagement.Menu, FormItemRule | FormItemRule[]> = {
 	id: { required: false, message: "" },
-	username: { required: true, message: "请输入用户名" },
-	password: { required: true, message: "请输入密码" },
-	nickname: { required: true, message: "请输入昵称" },
-	avatar: { required: false, message: "请输入头像" },
+	parentId: { required: true, message: "请输入父级菜单" },
+	path: { required: true, message: "请输入路径" },
+	name: { required: true, message: "请输入名称" },
+	url: { required: false, message: "请输入地址" },
+	title: { required: true, message: "请输入标题" },
+	icon: { required: false, message: "请输入图标" },
+	type: { required: true, message: "请选择类型" },
 	status: { required: true, message: "请选择状态" },
-	create_at: { required: false, message: "" },
-	update_at: { required: false, message: "" },
-	delete_at: { required: false, message: "" }
+	children: { required: false, message: "" }
 }
 
 const handleSubmit = () => {
 	// closeModal()
 }
-function createDefaultFormModel(): AccountManagement.Admin {
+function createDefaultFormModel(): AccountManagement.Menu {
 	return {
 		id: "",
-		username: "",
-		nickname: "",
-		password: "",
-		avatar: "",
+		parentId: "",
+		path: "",
+		name: "",
+		url: "",
+		title: "",
+		icon: "",
+		type: "0",
 		status: "1"
 	}
 }
 
 /** 处理新增和编辑时的表单数据 */
-function handleUpdateFormModel(model: Partial<AccountManagement.Admin>) {
+function handleUpdateFormModel(model: Partial<AccountManagement.Menu>) {
 	Object.assign(formModel, model)
 }
 function handleUpdateFormModelByModalType() {

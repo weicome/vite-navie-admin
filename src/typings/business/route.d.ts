@@ -8,11 +8,12 @@ type OriginRoute = {
 	url?: string // 前端生成组件路径，后端pathinfo
 	title?: string
 	icon?: string
-	type: number | RouteType
+	type: number
 	children?: Array<OriginRoute>
 }
-enum RouteType {
-	director = 0,
-	menu = 1,
-	action = 2
+
+interface RouteType {
+	type: "0" | "1" | "2"
 }
+
+type RouteTypeKey = NonNullable<RouteType["type"]>

@@ -16,3 +16,10 @@ export const StatusLabels: Record<StatusKey, string> = {
 
 /** 状态下拉选项 */
 export const StatusOptions = transformObjectToOption(StatusLabels)
+
+/** 菜单标签 */
+export const MenuLabels: Record<RouteTypeKey, string> = {
+	0: "目录",
+	1: "菜单",
+	2: "按钮"
+}

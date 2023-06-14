@@ -25,7 +25,7 @@
 import { ref, watch } from "vue"
 import type { DataTableColumn } from "naive-ui"
 
-type Column = DataTableColumn<AccountManagement.Admin>
+type Column = DataTableColumn<AccountManagement.Menu>
 
 interface Props {
 	columns: Column[]
