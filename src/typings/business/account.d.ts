@@ -2,12 +2,17 @@
 
 /** 后台账号类型 */
 declare namespace AccountManagement {
+	interface AdminData {
+		data: Admin[]
+		meta: pagination
+	}
 	/** 管理员 */
 	interface Admin extends Id, Datetime, STATUS {
-		username: string
-		nickname?: string
+		account: string
+		username?: string
+		ip_address?: string
+		role?: string
 		password?: string
-		avatar?: string
 	}
 
 	/** 角色 */

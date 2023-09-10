@@ -4,7 +4,7 @@ const prefix = "/back/admin"
 
 export const getAdmin = (data = {}) => {
 	return request({
-		url: `${prefix}/user/index`,
+		url: `${prefix}/menu/index`,
 		method: "post",
 		data
 	})
@@ -12,22 +12,22 @@ export const getAdmin = (data = {}) => {
 
 export const getAdminInfo = (id: string | number) => {
 	return request({
-		url: `${prefix}/user/display`,
+		url: `${prefix}/menu/display`,
 		method: "post",
 		data: { id: id }
 	})
 }
 
 export const saveAdmin = (data = {}, id: string | number) => {
-	if (data) {
+	if (id) {
 		return request({
-			url: `${prefix}/user/modify`,
+			url: `${prefix}/menu/modify`,
 			method: "post",
-			data: Object.assign({ id: id }, data)
+			data: [{ id: id }, data]
 		})
 	}
 	return request({
-		url: `${prefix}/user/create`,
+		url: `${prefix}/menu/create`,
 		method: "post",
 		data
 	})
@@ -35,7 +35,7 @@ export const saveAdmin = (data = {}, id: string | number) => {
 
 export const delUser = (id: string | number) => {
 	return request({
-		url: `${prefix}/user/delete`,
+		url: `${prefix}/menu/delete`,
 		method: "post",
 		data: { id: id }
 	})

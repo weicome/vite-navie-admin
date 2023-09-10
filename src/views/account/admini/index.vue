@@ -9,10 +9,6 @@
 					<icon-ic-round-delete class="mr-4px text-20px" />
 					删除
 				</n-button>
-				<n-button type="success">
-					<icon-uil:export class="mr-4px text-20px" />
-					导出Excel
-				</n-button>
 			</n-space>
 			<n-space align="center" :size="18">
 				<n-button size="small" type="primary" @click="getTableData">
@@ -44,14 +40,7 @@ const { bool: visible, setTrue: openModal } = useBoolean()
 
 const modalType = ref<ModalType>("add")
 const editData = ref<AccountManagement.Admin | null>(null)
-const tableData = ref<AccountManagement.Admin[]>([
-	{
-		id: 1,
-		username: "admin",
-		nickname: "超级管理员",
-		status: "0"
-	}
-])
+const tableData = ref<AccountManagement.Admin[]>([])
 
 const handleAddTable = () => {
 	setModalType("add")
@@ -70,13 +59,11 @@ const handleDeleteTable = (rowId: string | number) => {
 
 const getTableData = async () => {
 	startLoading()
-	const { data } = { data: "" }
-	// const { data } = await getAdmin()
-
+	const {data} = await getAdmin()
 	console.log(data)
 	if (data) {
 		setTimeout(() => {
-			// setTableData(data)
+			setTableData(data)
 		}, 1000)
 	}
 	endLoaing()
@@ -87,8 +74,8 @@ function setModalType(type: ModalType) {
 function setEditData(data: AccountManagement.Admin | null) {
 	editData.value = data
 }
-function setTableData(data: AccountManagement.Admin[]) {
-	tableData.value = data
+function setTableData(data: AccountManagement.AdminData) {
+	tableData.value = data.data
 }
 const columns: Ref<DataTableColumns<AccountManagement.Admin>> = ref([
 	{
@@ -96,13 +83,18 @@ const columns: Ref<DataTableColumns<AccountManagement.Admin>> = ref([
 		title: "序号"
 	},
 	{
-		key: "username",
+		key: "account",
 		title: "账号",
 		align: "center"
 	},
 	{
-		key: "nickname",
-		title: "昵称",
+		key: "username",
+		title: "名称",
+		align: "center"
+	},
+	{
+		key: "role",
+		title: "角色",
 		align: "center"
 	},
 	{

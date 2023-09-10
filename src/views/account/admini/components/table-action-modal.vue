@@ -2,14 +2,17 @@
 	<n-modal v-model:show="modalVisible" preset="card" :title="title" class="w-700px">
 		<n-form ref="formRef" label-placement="left" :label-width="80" :model="formModel" :rules="rules">
 			<n-grid :cols="24" :x-gap="18">
+				<n-form-item-grid-item :span="12" label="账号" path="account">
+					<n-input v-model:value="formModel.account" />
+				</n-form-item-grid-item>
 				<n-form-item-grid-item :span="12" label="用户名" path="username">
 					<n-input v-model:value="formModel.username" />
 				</n-form-item-grid-item>
+				<n-form-item-grid-item :span="12" label="角色" path="role">
+					<n-input v-model:value="formModel.role" />
+				</n-form-item-grid-item>
 				<n-form-item-grid-item :span="12" label="密码" path="password">
 					<n-input v-model:value="formModel.password" type="password" />
-				</n-form-item-grid-item>
-				<n-form-item-grid-item :span="12" label="昵称" path="nickname">
-					<n-input v-model:value="formModel.nickname" />
 				</n-form-item-grid-item>
 				<n-form-item-grid-item :span="12" label="状态" path="status">
 					<n-select v-model:value="formModel.status" :options="StatusOptions" />
@@ -29,6 +32,7 @@ import { computed, reactive, watch } from "vue"
 
 import type { FormItemRule } from "naive-ui"
 import { StatusOptions } from "@/constants"
+import { saveAdmin } from "@/api"
 
 export interface Props<T = null> {
 	/**弹窗可见性 */
@@ -73,27 +77,29 @@ const closeModal = () => {
 const formModel = reactive<AccountManagement.Admin>(createDefaultFormModel())
 
 const rules: Record<keyof AccountManagement.Admin, FormItemRule | FormItemRule[]> = {
-	id: { required: false, message: "" },
-	username: { required: true, message: "请输入用户名" },
-	password: { required: true, message: "请输入密码" },
-	nickname: { required: true, message: "请输入昵称" },
-	avatar: { required: false, message: "请输入头像" },
-	status: { required: true, message: "请选择状态" },
-	create_at: { required: false, message: "" },
-	update_at: { required: false, message: "" },
-	delete_at: { required: false, message: "" }
+  id: { required: false, message: "" },
+  account: { required: true, message: "请输入账号" },
+  username: { required: true, message: "请输入用户名" },
+  password: { required: true, message: "请输入密码" },
+  role: { required: false, message: "请选择角色" },
+  status: { required: true, message: "请选择状态" },
+  create_at: { required: false, message: "" },
+  update_at: { required: false, message: "" },
+  delete_at: { required: false, message: "" },
+  ip_address: {required:false}
 }
 
 const handleSubmit = () => {
-	// closeModal()
+	saveAdmin(formModel, (props.data as unknown as AccountManagement.Admin).id)
+	closeModal()
 }
 function createDefaultFormModel(): AccountManagement.Admin {
 	return {
 		id: "",
 		username: "",
-		nickname: "",
+		account: "",
 		password: "",
-		avatar: "",
+		role: "",
 		status: "1"
 	}
 }
