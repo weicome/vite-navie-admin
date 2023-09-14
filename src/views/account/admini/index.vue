@@ -24,7 +24,7 @@
 </template>
 
 <script setup lang="tsx">
-import { type Ref, ref, reactive } from "vue"
+import { type Ref, ref, reactive, watch } from "vue"
 import { NSpace, NButton, NPopconfirm, type DataTableColumns, type PaginationProps, NTag } from "naive-ui"
 
 import { StatusLabels, StatusOptions } from "@/constants"
@@ -60,7 +60,6 @@ const handleDeleteTable = (rowId: string | number) => {
 const getTableData = async () => {
 	startLoading()
 	const {data} = await getAdmin()
-	console.log(data)
 	if (data) {
 		setTimeout(() => {
 			setTableData(data)
@@ -151,6 +150,15 @@ const pagination: PaginationProps = reactive({
 		pagination.page = 1
 	}
 })
+watch(
+	() => visible,
+	(newValue) => {
+		console.log(newValue)
+		if (newValue) {
+			getTableData()
+		}
+	}
+)
 ;(function () {
 	getTableData()
 })()

@@ -2,7 +2,7 @@ import { defAxios as request } from "@/utils/http"
 
 const prefix = "/back/admin"
 
-export const getAdmin = (data = {}) => {
+export const getMenuList = (data = {}) => {
 	return request({
 		url: `${prefix}/menu/index`,
 		method: "post",
@@ -10,7 +10,7 @@ export const getAdmin = (data = {}) => {
 	})
 }
 
-export const getAdminInfo = (id: string | number) => {
+export const getMenuInfo = (id: string | number) => {
 	return request({
 		url: `${prefix}/menu/display`,
 		method: "post",
@@ -18,7 +18,7 @@ export const getAdminInfo = (id: string | number) => {
 	})
 }
 
-export const saveAdmin = (data = {}, id: string | number) => {
+export const saveMenu = (data = {}, id: string | number) => {
 	if (id) {
 		return request({
 			url: `${prefix}/menu/modify`,
@@ -33,7 +33,7 @@ export const saveAdmin = (data = {}, id: string | number) => {
 	})
 }
 
-export const delUser = (id: string | number) => {
+export const delMenu = (id: string | number) => {
 	return request({
 		url: `${prefix}/menu/delete`,
 		method: "post",

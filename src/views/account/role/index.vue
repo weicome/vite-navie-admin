@@ -9,10 +9,6 @@
 					<icon-ic-round-delete class="mr-4px text-20px" />
 					删除
 				</n-button>
-				<n-button type="success">
-					<icon-uil:export class="mr-4px text-20px" />
-					导出Excel
-				</n-button>
 			</n-space>
 			<n-space align="center" :size="18">
 				<n-button size="small" type="primary" @click="getTableData">
@@ -33,6 +29,7 @@ import { NSpace, NButton, NPopconfirm, type DataTableColumns, type PaginationPro
 import { StatusLabels, StatusOptions } from "@/constants"
 
 import { useBoolean, useLoading } from "@/hooks"
+import { getRoleList } from "@/api"
 
 import TableActionModal, { ModalType } from "./components/table-action-modal.vue"
 
@@ -41,14 +38,7 @@ const { bool: visible, setTrue: openModal } = useBoolean()
 
 const modalType = ref<ModalType>("add")
 const editData = ref<AccountManagement.Role | null>(null)
-const tableData = ref<AccountManagement.Role[]>([
-	{
-		id: 1,
-		name: "超级管理员",
-		symbol: "root",
-		status: "0"
-	}
-])
+const tableData = ref<AccountManagement.Role[]>([])
 
 const handleAddTable = () => {
 	setModalType("add")
@@ -67,11 +57,11 @@ const handleDeleteTable = (rowId: string | number) => {
 
 const getTableData = async () => {
 	startLoading()
-	const { data } = { data: "" }
+	const { data } = await getRoleList()
 	console.log(data)
 	if (data) {
 		setTimeout(() => {
-			// setTableData(data)
+			setTableData(data)
 		}, 1000)
 	}
 	endLoaing()
@@ -82,8 +72,8 @@ function setModalType(type: ModalType) {
 function setEditData(data: AccountManagement.Role | null) {
 	editData.value = data
 }
-function setTableData(data: AccountManagement.Role[]) {
-	tableData.value = data
+function setTableData(data: AccountManagement.RoleData) {
+	tableData.value = data.data
 }
 const columns: Ref<DataTableColumns<AccountManagement.Role>> = ref([
 	{

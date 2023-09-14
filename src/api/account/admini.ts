@@ -19,7 +19,7 @@ export const getAdminInfo = (id: string | number) => {
 }
 
 export const saveAdmin = (data = {}, id: string | number) => {
-	if (data) {
+	if (id) {
 		return request({
 			url: `${prefix}/user/modify`,
 			method: "post",

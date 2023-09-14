@@ -90,7 +90,9 @@ const rules: Record<keyof AccountManagement.Admin, FormItemRule | FormItemRule[]
 }
 
 const handleSubmit = () => {
-	saveAdmin(formModel, (props.data as unknown as AccountManagement.Admin).id)
+	console.log((props.data as unknown as AccountManagement.Admin)?.id)
+	formModel.role = (formModel.role as string ).split('')
+	saveAdmin(formModel, (props.data as unknown as AccountManagement.Admin)?.id)
 	closeModal()
 }
 function createDefaultFormModel(): AccountManagement.Admin {
@@ -99,7 +101,7 @@ function createDefaultFormModel(): AccountManagement.Admin {
 		username: "",
 		account: "",
 		password: "",
-		role: "",
+		role: '',
 		status: "1"
 	}
 }
@@ -107,6 +109,7 @@ function createDefaultFormModel(): AccountManagement.Admin {
 /** 处理新增和编辑时的表单数据 */
 function handleUpdateFormModel(model: Partial<AccountManagement.Admin>) {
 	Object.assign(formModel, model)
+	console.log(formModel)
 }
 function handleUpdateFormModelByModalType() {
 	const handles: Record<ModalType, () => void> = {

@@ -11,15 +11,23 @@ declare namespace AccountManagement {
 		account: string
 		username?: string
 		ip_address?: string
-		role?: string
+		role?: string | string[]
 		password?: string
 	}
 
+	interface RoleData {
+		data: Role[]
+		meta: pagination
+	}
 	/** 角色 */
 	interface Role extends Id, STATUS {
 		name: string
 		symbol: string
-		description?: string
+		remark?: string
+	}
+	interface MenuData {
+		data: Menu[]
+		meta: pagination
 	}
 	/** 菜单 */
 	interface Menu extends Id, STATUS {

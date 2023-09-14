@@ -2,7 +2,7 @@ import { defAxios as request } from "@/utils/http"
 
 const prefix = "/back/admin"
 
-export const getAdmin = (data = {}) => {
+export const getRoleList = (data = {}) => {
 	return request({
 		url: `${prefix}/role/index`,
 		method: "post",
@@ -10,7 +10,7 @@ export const getAdmin = (data = {}) => {
 	})
 }
 
-export const getAdminInfo = (id: string | number) => {
+export const getRoleInfo = (id: string | number) => {
 	return request({
 		url: `${prefix}/role/display`,
 		method: "post",
@@ -18,7 +18,7 @@ export const getAdminInfo = (id: string | number) => {
 	})
 }
 
-export const saveAdmin = (data = {}, id: string | number) => {
+export const saveRole = (data = {}, id: string | number) => {
 	if (id) {
 		return request({
 			url: `${prefix}/role/modify`,
@@ -33,7 +33,7 @@ export const saveAdmin = (data = {}, id: string | number) => {
 	})
 }
 
-export const delUser = (id: string | number) => {
+export const delRole = (id: string | number) => {
 	return request({
 		url: `${prefix}/role/delete`,
 		method: "post",
