@@ -12,7 +12,7 @@
 					<n-select v-model:value="formModel.status" :options="StatusOptions" />
 				</n-form-item-grid-item>
 				<n-form-item-grid-item :span="12" label="描述" path="description">
-					<n-input v-model:value="formModel.description" type="textarea" />
+					<n-input v-model:value="formModel.remark" type="textarea" />
 				</n-form-item-grid-item>
 			</n-grid>
 
@@ -29,6 +29,7 @@ import { computed, reactive, watch } from "vue"
 
 import type { FormItemRule } from "naive-ui"
 import { StatusOptions } from "@/constants"
+import { saveRole } from "@/api"
 
 export interface Props<T = null> {
 	/**弹窗可见性 */
@@ -77,11 +78,14 @@ const rules: Record<keyof AccountManagement.Role, FormItemRule | FormItemRule[]>
 	name: { required: true, message: "请输入角色名" },
 	symbol: { required: true, message: "请输入标识" },
 	status: { required: true, message: "请选择状态" },
-	description: { required: false, message: "" }
+	remark: { required: false, message: "" }
 }
 
 const handleSubmit = () => {
-	// closeModal()
+	console.log((props.data as unknown as AccountManagement.Role)?.id)
+	// formModel.role = (formModel.role as string ).split('')
+	saveRole(formModel, (props.data as unknown as AccountManagement.Role)?.id)
+	closeModal()
 }
 function createDefaultFormModel(): AccountManagement.Role {
 	return {
@@ -89,7 +93,7 @@ function createDefaultFormModel(): AccountManagement.Role {
 		name: "",
 		symbol: "",
 		status: "1",
-		description: ""
+		remark: ""
 	}
 }
 
