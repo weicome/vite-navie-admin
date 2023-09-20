@@ -18,9 +18,10 @@ export const setupRouter = async (app: App) => {
 	await router.isReady()
 }
 
+// 路由守卫
 const setupRouterGuard = (router: Router) => {
 	createPageLoadingGuard(router)
-	// createPermissionGuard(router)
+	createPermissionGuard(router)
 	createPageTitleGuard(router)
 }
 

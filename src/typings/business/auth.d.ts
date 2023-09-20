@@ -1,36 +1,42 @@
 type UserInfo = {
-  id: number;
-  name: string;
-  avatar: string;
-};
+	id: number
+	username: string
+	account: string
+	avatar: string
+	ip_address?: string
+	roles?: UserRole
+	menus: AccountManagement.Menu[]
+}
 
 type UserRole = {
-  id: number
-  name: string,
-  menus: OriginRoute[]
+	id: number
+	name: string
 }
 
 /** 登录参数 */
 type LoginParams = {
-  // captchaId: string;
-  password: string;
-  username: string;
-  // verifyCode: string;
-};
+	// captchaId: string;
+	password: string
+	account: string
+	remember?: boolean
+	// verifyCode: string;
+}
 
 /** 登录成功结果 */
 type LoginResult = {
-  token: string;
-};
+	type: string
+	token: string
+	expires_at: number
+}
 
 /** 获取验证码参数 */
 type CaptchaParams = {
-  width?: number;
-  height?: number;
-};
+	width?: number
+	height?: number
+}
 
 /** 获取验证码结果 */
 type CaptchaResult = {
-  img: string;
-  id: string;
-};
+	img: string
+	id: string
+}

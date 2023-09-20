@@ -31,13 +31,14 @@ declare namespace AccountManagement {
 	}
 	/** 菜单 */
 	interface Menu extends Id, STATUS {
-		parentId?: number | string // 父菜单id
-		path: string // 前端路由命名，后端鉴权,通过 casbin
 		name: string
-		url?: string // 前端生成组件路径，后端pathinfo
 		title?: string
+		pid?: number | string // 父菜单id
+		path: string // 前端路由命名，后端鉴权,通过 casbin
+		url?: string // 前端生成组件路径，后端pathinfo
 		icon?: string
 		type: RouteTypeKey
+		sort: number
 		children?: Array<Menu>
 	}
 }

@@ -1,12 +1,12 @@
 import { defineStore } from "pinia"
 import { Storage } from "@/utils/cache"
-import { getInfo, getRole, login, logout } from "@/api"
+import { getInfo, login, logout } from "@/api"
 import { asyncRoutes } from "@/router/routes/async"
 import { generatorRoutes } from "@/router/helper"
 interface UserState {
 	token: string
 	userInfo: Partial<UserInfo>
-	role: Partial<UserRole>
+	menus: Partial<AccountManagement.Menu[]>
 }
 
 const ACCESS_TOKEN_KEY = "access_token"
@@ -15,9 +15,10 @@ const DURATION: number = 60 * 60 * 60
 
 export const useUserStore = defineStore("user", {
 	state: (): UserState => ({
-		token: Storage.get(ACCESS_TOKEN_KEY, true),
+		// token: Storage.get(ACCESS_TOKEN_KEY, true),
+		token: "",
 		userInfo: {},
-		role: {}
+		menus: []
 	}),
 	getters: {
 		tokens(): string | null {
@@ -27,13 +28,13 @@ export const useUserStore = defineStore("user", {
 			return this.userInfo?.id as number
 		},
 		name(): string {
-			return this.userInfo?.name as string
+			return this.userInfo?.username as string
 		},
 		avatar(): string {
-			return this.avatar as string
+			return this.userInfo.avatar as string
 		},
 		roles(): string {
-			return this.role?.name || ""
+			return this.userInfo.roles?.name || ""
 		},
 		menus() {
 			// 这里先直接返回路由组, 后面修改菜单生成方式
@@ -47,20 +48,20 @@ export const useUserStore = defineStore("user", {
 		resetToken(): void {
 			this.token = ""
 			this.userInfo = {}
-			this.role = {}
+			this.menus = []
 			Storage.clear()
 		},
 		/** 登录成功保存token */
-		setToken(token: string): void {
+		setToken(token: string, expires_at: number): void {
 			this.token = token || ""
-			Storage.set(ACCESS_TOKEN_KEY, this.token, DURATION)
+			Storage.set(ACCESS_TOKEN_KEY, this.token, expires_at)
 		},
 
 		/** 登录 */
 		async login(params: LoginParams) {
 			try {
-				const { token } = await (await login(params)).data
-				this.setToken(token)
+				const { token, expires_at } = await (await login(params)).data
+				this.setToken(token, expires_at)
 				return this.getInfo()
 			} catch (error) {
 				return Promise.reject(error)
@@ -72,12 +73,7 @@ export const useUserStore = defineStore("user", {
 			try {
 				const userInfo = (await getInfo()).data
 				this.userInfo = { ...userInfo }
-				const role = (await getRole()).data as UserRole
-				// this.role = {...role}
-				this.userInfo.id = 1
-				this.role.id = role.id
-				this.role.name = role.name
-				this.role.menus = role.menus
+				this.menus = userInfo.menus
 				return Promise.resolve(userInfo)
 			} catch (error) {
 				return Promise.reject(error)
@@ -85,8 +81,8 @@ export const useUserStore = defineStore("user", {
 		},
 		update() {
 			this.userInfo = {}
-			this.role = {}
-			this.getInfo()
+			this.menus = []
+			// this.getInfo()
 		},
 		/** 登出 */
 		async logout() {
