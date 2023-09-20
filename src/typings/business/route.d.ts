@@ -2,13 +2,13 @@
 
 type OriginRoute = {
 	id: number | string
-	parentId?: number | string // 父菜单id
-	path: string
-	name: string // 前端路由命名，后端鉴权,通过 casbin
-	url?: string // 前端生成组件路径，后端pathinfo
+	name: string
 	title?: string
+	pid?: number | string // 父菜单id
+	path: string // 前端路由命名，后端鉴权,通过 casbin
+	url?: string // 前端生成组件路径，后端pathinfo
 	icon?: string
-	type: number
+	type: RouteTypeKey
 	children?: Array<OriginRoute>
 }
 

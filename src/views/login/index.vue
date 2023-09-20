@@ -44,7 +44,7 @@
 <script setup lang="ts">
 import { ref } from "vue"
 import { useUserStore } from "@/store/modules"
-import router from "@/router"
+import { useRouter, useRoute } from "vue-router"
 const title = import.meta.env.VITE_APP_TITLE
 const loginInfo = ref({
 	account: "",
@@ -52,11 +52,15 @@ const loginInfo = ref({
 	remember: false
 })
 const isRemember = ref(false)
-
-async function handleLogin() {
+const router = useRouter()
+function handleLogin() {
 	loginInfo.value.remember = isRemember.value
 	try {
-		await useUserStore().login(loginInfo.value)
+		useUserStore()
+			.login(loginInfo.value)
+			.then(() => {
+				router.push({ path: "/" })
+			})
 	} catch (error: any) {
 		// window.$message.error(error?.message)
 	}

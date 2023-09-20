@@ -6,19 +6,14 @@ import { generatorRoutes } from "@/router/helper"
 interface UserState {
 	token: string
 	userInfo: Partial<UserInfo>
-	menus: Partial<AccountManagement.Menu[]>
 }
 
 const ACCESS_TOKEN_KEY = "access_token"
 
-const DURATION: number = 60 * 60 * 60
-
 export const useUserStore = defineStore("user", {
 	state: (): UserState => ({
-		// token: Storage.get(ACCESS_TOKEN_KEY, true),
 		token: "",
-		userInfo: {},
-		menus: []
+		userInfo: {}
 	}),
 	getters: {
 		tokens(): string | null {
@@ -38,9 +33,13 @@ export const useUserStore = defineStore("user", {
 		},
 		menus() {
 			// 这里先直接返回路由组, 后面修改菜单生成方式
-			return asyncRoutes
+			// return asyncRoutes
 			// const menus = this.role?.menus as OriginRoute[]
-			// return generatorRoutes(menus)
+			const route: OriginRoute[] = []
+			this.userInfo.menus?.forEach((item) => {
+				route.push({ ...item })
+			})
+			return generatorRoutes(route as OriginRoute[])
 		}
 	},
 	actions: {
@@ -48,7 +47,6 @@ export const useUserStore = defineStore("user", {
 		resetToken(): void {
 			this.token = ""
 			this.userInfo = {}
-			this.menus = []
 			Storage.clear()
 		},
 		/** 登录成功保存token */
@@ -62,7 +60,7 @@ export const useUserStore = defineStore("user", {
 			try {
 				const { token, expires_at } = await (await login(params)).data
 				this.setToken(token, expires_at)
-				return this.getInfo()
+				return Promise.resolve()
 			} catch (error) {
 				return Promise.reject(error)
 			}
@@ -73,7 +71,6 @@ export const useUserStore = defineStore("user", {
 			try {
 				const userInfo = (await getInfo()).data
 				this.userInfo = { ...userInfo }
-				this.menus = userInfo.menus
 				return Promise.resolve(userInfo)
 			} catch (error) {
 				return Promise.reject(error)
@@ -81,7 +78,6 @@ export const useUserStore = defineStore("user", {
 		},
 		update() {
 			this.userInfo = {}
-			this.menus = []
 			// this.getInfo()
 		},
 		/** 登出 */
