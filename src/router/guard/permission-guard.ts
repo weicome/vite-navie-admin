@@ -15,11 +15,9 @@ export const createPermissionGuard = (router: Router) => {
 			if (to.path === "/login") {
 				next({ path: "/" })
 			} else {
-				console.log("to", to.path)
-				console.log("userId", userStore.userId)
 				if (userStore.userId) {
 					// 已经获取到用户信息
-					jumpRoot(to, next, userStore.menus)
+					jumpRoot(to, next, router.getRoutes())
 				} else {
 					router.options.routes = { ...constantRoutes }
 					await userStore.getInfo().catch((error) => {
@@ -27,15 +25,11 @@ export const createPermissionGuard = (router: Router) => {
 						return
 					})
 					const accessRoutes = userStore.menus
-					console.log("accessRoutes", accessRoutes)
 					accessRoutes.forEach((route: RouteRecordRaw) => {
-						console.log("routes", router.options.routes)
-						console.log("route", route)
 						!router.hasRoute(route.name as string) && router.addRoute(route)
 					})
 					router.addRoute(NOT_FOUND_ROUTE)
-					console.log(router)
-					jumpRoot(to, next, userStore.menus)
+					jumpRoot(to, next, router.getRoutes())
 				}
 			}
 		} else {
@@ -48,6 +42,7 @@ export const createPermissionGuard = (router: Router) => {
 	})
 }
 
+// 第二版
 const usePremissionGuard = (router: Router) => {
 	router.beforeEach(async (to, form, next) => {
 		if (WHITE_LIST.includes(to.path)) {

@@ -12,7 +12,7 @@ const ACCESS_TOKEN_KEY = "access_token"
 
 export const useUserStore = defineStore("user", {
 	state: (): UserState => ({
-		token: "",
+		token: "" || Storage.get(ACCESS_TOKEN_KEY),
 		userInfo: {}
 	}),
 	getters: {

@@ -1,6 +1,5 @@
 import { NavigationGuardNext, RouteLocationNormalized, RouteRecordRaw } from "vue-router"
-import { NOT_FOUND_ROUTE } from "../routes/constants"
-import { useUserStore } from "@/store/modules"
+
 const LAYOUT = () => import("@/components/Layouts/Layout.vue")
 
 // 根据菜单按钮生成路由

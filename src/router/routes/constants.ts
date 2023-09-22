@@ -14,6 +14,26 @@ export const constantRoutes = [
 		}
 	},
 	{
+		path: "/dashboard",
+		name: "Index",
+		component: LAYOUT,
+		meta: {
+			title: "首页",
+			icon: "dashboard"
+		},
+		children: [
+			{
+				path: "welcome",
+				name: "Welcome",
+				component: () => import("@/views/dashboard/index.vue"),
+				meta: {
+					title: "工作台",
+					icon: "icon-shouye"
+				}
+			}
+		]
+	},
+	{
 		name: "Login",
 		path: "/login",
 		component: () => import("@/views/login/index.vue"),

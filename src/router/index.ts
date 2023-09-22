@@ -12,17 +12,17 @@ const router = createRouter({
 	scrollBehavior: () => ({ left: 0, top: 0 })
 })
 
-export const setupRouter = async (app: App) => {
-	app.use(router)
-	setupRouterGuard(router)
-	await router.isReady()
-}
-
 // 路由守卫
 const setupRouterGuard = (router: Router) => {
 	createPageLoadingGuard(router)
 	createPermissionGuard(router)
 	createPageTitleGuard(router)
+}
+
+export const setupRouter = async (app: App) => {
+	app.use(router)
+	setupRouterGuard(router)
+	await router.isReady()
 }
 
 export default router
