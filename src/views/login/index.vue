@@ -44,7 +44,7 @@
 <script setup lang="ts">
 import { ref } from "vue"
 import { useUserStore } from "@/store/modules"
-import { useRouter, useRoute } from "vue-router"
+import { useRouter } from "vue-router"
 const title = import.meta.env.VITE_APP_TITLE
 const loginInfo = ref({
 	account: "",
@@ -59,7 +59,7 @@ function handleLogin() {
 		useUserStore()
 			.login(loginInfo.value)
 			.then(() => {
-				router.push({ path: "/" })
+				router.replace({ path: "/" })
 			})
 	} catch (error: any) {
 		// window.$message.error(error?.message)

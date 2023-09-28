@@ -1,7 +1,7 @@
 import { defAxios as request } from "@/utils/http"
 import { AxiosResponse } from "axios"
 
-const prefix = "/back/admin"
+const prefix = "/back"
 
 export const login = (data: LoginParams): Promise<AxiosResponse<LoginResult>> => {
 	return request({
@@ -24,18 +24,16 @@ export const getInfo = (): Promise<AxiosResponse<UserInfo>> => {
 		method: "post"
 	})
 }
+export const getMenus = (): Promise<AxiosResponse<AccountManagement.Menu[]>> => {
+	return request({
+		url: `${prefix}/auth/menus`,
+		method: "post"
+	})
+}
 
 export const logout = () => {
 	return request({
 		url: `${prefix}/auth/logout`,
 		method: "post"
-	})
-}
-
-//无用
-export const getRole = (): Promise<AxiosResponse<UserRole>> => {
-	return request({
-		url: "/auth/getRole",
-		method: "get"
 	})
 }

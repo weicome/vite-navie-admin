@@ -1,6 +1,5 @@
 import type { App } from "vue"
 import { Router, createRouter, createWebHashHistory } from "vue-router"
-// import { asyncRoutes as routes } from "./routes/async"
 import { constantRoutes as routes } from "./routes/constants"
 import { createPageLoadingGuard } from "./guard/page-loading-guard"
 import { createPageTitleGuard } from "./guard/page-title-guard"

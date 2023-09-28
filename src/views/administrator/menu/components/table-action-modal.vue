@@ -47,12 +47,12 @@ export interface Props<T = null> {
 	 * add: 新增
 	 * edit: 编辑
 	 */
-	type?: "add" | "edit"
+	type: "add" | "edit"
 	data?: T
 }
 export type ModalType = NonNullable<Props["type"]>
 
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props<AccountManagement.Menu | null>>(), {
 	type: "add",
 	data: null
 })
@@ -83,7 +83,7 @@ const formModel = reactive<AccountManagement.Menu>(createDefaultFormModel())
 
 const rules: Record<keyof AccountManagement.Menu, FormItemRule | FormItemRule[]> = {
 	id: { required: false, message: "" },
-	parentId: { required: true, message: "请输入父级菜单" },
+	pid: { required: true, message: "请输入父级菜单" },
 	path: { required: true, message: "请输入路径" },
 	name: { required: true, message: "请输入名称" },
 	url: { required: false, message: "请输入地址" },
@@ -91,6 +91,7 @@ const rules: Record<keyof AccountManagement.Menu, FormItemRule | FormItemRule[]>
 	icon: { required: false, message: "请输入图标" },
 	type: { required: true, message: "请选择类型" },
 	status: { required: true, message: "请选择状态" },
+	sort: {},
 	children: { required: false, message: "" }
 }
 
@@ -100,13 +101,14 @@ const handleSubmit = () => {
 function createDefaultFormModel(): AccountManagement.Menu {
 	return {
 		id: "",
-		parentId: "",
+		pid: "",
 		path: "",
 		name: "",
 		url: "",
 		title: "",
 		icon: "",
 		type: "0",
+		sort: 0,
 		status: "1"
 	}
 }

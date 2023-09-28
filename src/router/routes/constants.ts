@@ -1,31 +1,30 @@
 import { RouteRecordRaw } from "vue-router"
-
+import systemRoutes from "../modules/account"
+import phone from "../modules/phone"
 const LAYOUT = () => import("@/components/Layouts/Layout.vue")
+
+// miss路由
+export const NOT_FOUND_ROUTE: RouteRecordRaw = {
+	name: "NotFound",
+	path: "/:pathMatch(.*)*",
+	redirect: "/404"
+}
 
 // 常量路由
 export const constantRoutes = [
 	{
 		path: "/",
 		name: "Layout",
-		redirect: "/dashboard/welcome",
+		redirect: "/dashboard",
 		component: LAYOUT,
 		meta: {
 			title: "首页"
-		}
-	},
-	{
-		path: "/dashboard",
-		name: "Index",
-		component: LAYOUT,
-		meta: {
-			title: "首页",
-			icon: "dashboard"
 		},
 		children: [
 			{
-				path: "welcome",
-				name: "Welcome",
-				component: () => import("@/views/dashboard/index.vue"),
+				path: "/dashboard",
+				name: "Index",
+				component: import("@/views/dashboard/index.vue"),
 				meta: {
 					title: "工作台",
 					icon: "icon-shouye"
@@ -33,6 +32,8 @@ export const constantRoutes = [
 			}
 		]
 	},
+	...systemRoutes,
+	...phone,
 	{
 		name: "Login",
 		path: "/login",
@@ -46,12 +47,6 @@ export const constantRoutes = [
 		name: "404",
 		component: () => import("@/views/exception/404.vue"),
 		meta: {}
-	}
+	},
+	NOT_FOUND_ROUTE
 ] as RouteRecordRaw[]
-
-// miss路由
-export const NOT_FOUND_ROUTE: RouteRecordRaw = {
-	name: "NotFound",
-	path: "/:pathMatch(.*)*",
-	redirect: "/404"
-}

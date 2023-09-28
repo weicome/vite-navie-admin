@@ -40,11 +40,11 @@ export interface Props<T = null> {
 	 * edit: 编辑
 	 */
 	type?: "add" | "edit"
-	data?: T
+	data?: T | null
 }
 export type ModalType = NonNullable<Props["type"]>
 
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props<AccountManagement.Role>>(), {
 	type: "add",
 	data: null
 })

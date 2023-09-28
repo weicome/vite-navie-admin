@@ -1,7 +1,6 @@
 import { defineStore } from "pinia"
 import { Storage } from "@/utils/cache"
 import { getInfo, login, logout } from "@/api"
-import { asyncRoutes } from "@/router/routes/async"
 import { generatorRoutes } from "@/router/helper"
 interface UserState {
 	token: string
@@ -32,9 +31,6 @@ export const useUserStore = defineStore("user", {
 			return this.userInfo.roles?.name || ""
 		},
 		menus() {
-			// 这里先直接返回路由组, 后面修改菜单生成方式
-			// return asyncRoutes
-			// const menus = this.role?.menus as OriginRoute[]
 			const route: OriginRoute[] = []
 			this.userInfo.menus?.forEach((item) => {
 				route.push({ ...item })

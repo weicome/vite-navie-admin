@@ -43,11 +43,11 @@ export interface Props<T = null> {
 	 * edit: 编辑
 	 */
 	type?: "add" | "edit"
-	data?: T
+	data?: T | null
 }
 export type ModalType = NonNullable<Props["type"]>
 
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props<AccountManagement.Admin>>(), {
 	type: "add",
 	data: null
 })
@@ -77,21 +77,21 @@ const closeModal = () => {
 const formModel = reactive<AccountManagement.Admin>(createDefaultFormModel())
 
 const rules: Record<keyof AccountManagement.Admin, FormItemRule | FormItemRule[]> = {
-  id: { required: false, message: "" },
-  account: { required: true, message: "请输入账号" },
-  username: { required: true, message: "请输入用户名" },
-  password: { required: true, message: "请输入密码" },
-  role: { required: false, message: "请选择角色" },
-  status: { required: true, message: "请选择状态" },
-  create_at: { required: false, message: "" },
-  update_at: { required: false, message: "" },
-  delete_at: { required: false, message: "" },
-  ip_address: {required:false}
+	id: { required: false, message: "" },
+	account: { required: true, message: "请输入账号" },
+	username: { required: true, message: "请输入用户名" },
+	password: { required: true, message: "请输入密码" },
+	role: { required: false, message: "请选择角色" },
+	status: { required: true, message: "请选择状态" },
+	create_at: { required: false, message: "" },
+	update_at: { required: false, message: "" },
+	delete_at: { required: false, message: "" },
+	ip_address: { required: false }
 }
 
 const handleSubmit = () => {
 	console.log((props.data as unknown as AccountManagement.Admin)?.id)
-	formModel.role = (formModel.role as string ).split('')
+	formModel.role = (formModel.role as string).split("")
 	saveAdmin(formModel, (props.data as unknown as AccountManagement.Admin)?.id)
 	closeModal()
 }
@@ -101,7 +101,7 @@ function createDefaultFormModel(): AccountManagement.Admin {
 		username: "",
 		account: "",
 		password: "",
-		role: '',
+		role: "",
 		status: "1"
 	}
 }

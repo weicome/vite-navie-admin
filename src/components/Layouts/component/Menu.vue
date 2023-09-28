@@ -4,11 +4,13 @@
 
 <script setup lang="ts">
 import { useUserStore } from "@/store/modules"
+import { constantRoutes } from "@/router/routes/constants"
 import { h } from "vue"
 import { RouteRecordRaw, RouterLink } from "vue-router"
 import icons from "@vicons/ionicons5"
 
-const menuOptions = useUserStore().menus
+// const menuOptions = useUserStore().menus
+const menuOptions = constantRoutes
 
 // 组装菜单
 const generatorMenu = (routerMap: Array<RouteRecordRaw>): MenuOption[] => {
@@ -16,7 +18,7 @@ const generatorMenu = (routerMap: Array<RouteRecordRaw>): MenuOption[] => {
 		const currentMenu: MenuOption = {
 			label: () => h(RouterLink, { to: { name: item.name } }, { default: () => item?.meta?.title }),
 			key: item?.name as string
-			// icon: ()=> h(icons[item?.meta?.icon | 'LogOutOutline'])
+			// icon: () => h(icons[item?.meta?.icon | "LogOutOutline"])
 		}
 		if (item.children && item.children.length > 0) {
 			currentMenu.children = generatorMenu(item.children)

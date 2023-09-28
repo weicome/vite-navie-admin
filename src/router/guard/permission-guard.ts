@@ -19,21 +19,23 @@ export const createPermissionGuard = (router: Router) => {
 					// 已经获取到用户信息
 					jumpRoot(to, next, router.getRoutes())
 				} else {
-					router.options.routes = { ...constantRoutes }
+					// router.options.routes = { ...constantRoutes }
 					await userStore.getInfo().catch((error) => {
 						window.$message.error(error.message || "获取用户信息失败！")
 						return
 					})
-					const accessRoutes = userStore.menus
-					accessRoutes.forEach((route: RouteRecordRaw) => {
-						!router.hasRoute(route.name as string) && router.addRoute(route)
-					})
-					router.addRoute(NOT_FOUND_ROUTE)
-					jumpRoot(to, next, router.getRoutes())
+					// const accessRoutes = userStore.menus
+					// accessRoutes.forEach((route: RouteRecordRaw) => {
+					// 	!router.hasRoute(route.name as string) && router.addRoute(route)
+					// })
+					// router.addRoute(NOT_FOUND_ROUTE)
+					// jumpRoot(to, next, router.getRoutes())
+					next()
 				}
 			}
 		} else {
 			if (WHITE_LIST.includes(to.path)) {
+				console.log("to login", to.path)
 				next()
 			} else {
 				next({ path: "/login" })

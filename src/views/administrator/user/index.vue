@@ -59,7 +59,7 @@ const handleDeleteTable = (rowId: string | number) => {
 
 const getTableData = async () => {
 	startLoading()
-	const {data} = await getAdmin()
+	const { data } = await getAdmin()
 	if (data) {
 		setTimeout(() => {
 			setTableData(data)

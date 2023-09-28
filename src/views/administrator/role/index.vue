@@ -43,7 +43,7 @@ const tableData = ref<AccountManagement.Role[]>([])
 const handleAddTable = () => {
 	setModalType("add")
 	openModal()
-}
+}    
 const handleEditTable = (rowId: string | number) => {
 	const findItme = tableData.value.find((item) => item.id === rowId)
 	findItme && setEditData(findItme)
